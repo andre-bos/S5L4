@@ -11,12 +11,13 @@ namespace Biblioteca {
     }
 
     abstract class MaterialeBibliotecario implements IPresito {
-        private $titolo;
-        private $annoPubblicazione;
+        public $id;
+        public $titolo;
+        public $annoPubblicazione;
         private static $contatoreMateriali = 0;
 
-        function __construct($titolo, $annoPubblicazione)
-        {
+        function __construct($id, $titolo, $annoPubblicazione) {
+            $this->id = $id;
             $this->titolo = $titolo;
             $this->annoPubblicazione = $annoPubblicazione;
             self::$contatoreMateriali++;
@@ -38,12 +39,12 @@ namespace Biblioteca {
     }
 
     class Libro extends MaterialeBibliotecario {
-        private $autore;
+        public $autore;
         private static $contatoreLibri = 0;
 
-        function __construct($titolo, $annoPubblicazione, $autore)
+        function __construct($id, $titolo, $annoPubblicazione, $autore)
         {
-            parent::__construct($titolo, $annoPubblicazione);
+            parent::__construct($id, $titolo, $annoPubblicazione);
             $this->autore = $autore;
             self::$contatoreLibri++;
         }

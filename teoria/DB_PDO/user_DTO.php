@@ -15,7 +15,10 @@ class UserDTO {
         return null;
     }
     public function getUserByID(int $id) {
-        $res = $this->conn->query('SELECT * FROM users WHERE id = ' . $id, PDO::FETCH_ASSOC);
+        $sql = 'SELECT * FROM users WHERE id = :id';
+
+        $stm = $this->conn->prepare($sql);
+        $res = $stm->execute(['id' => $id]);
 
         if($res) {
             return $res;
@@ -30,6 +33,18 @@ class UserDTO {
         $stm->execute(['nome' => $user['name'], 'cognome' => $user['lastname'], 'citta' => $user['city']]);
         print_r($stm->rowCount());
     }
-    public function updateUser(array $user) {}
-    public function deleteUser(int $id) {}
+    public function updateUser(array $user) {
+        $sql = "UPDATE users SET name = :nome, lastname = :cognome, city = :citta WHERE id = :id";
+
+        $stm = $this->conn->prepare($sql);
+        $stm->execute(['nome' => $user['name'], 'cognome' => $user['lastname'], 'citta' => $user['city'], 'id' => $user['id']]);
+        print_r($stm->rowCount());
+    }
+    public function deleteUser(int $id) {
+        $sql = "DELETE FROM users WHERE id = :id";
+
+        $stm = $this->conn->prepare($sql);
+        $stm->execute(['id' => $id]);
+        print_r($stm->rowCount());
+    }
 }
